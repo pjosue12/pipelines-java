@@ -7,6 +7,7 @@ trigger:
 - master
 - releases/*
 
+
 strategy:
   matrix:
     jdk10_linux:
@@ -16,6 +17,7 @@ strategy:
       imageName: "vs2017-win2016"
       jdk_version: "1.11"
   maxParallel: 2
+
 
 pool:
   vmImage: $(imageName)
@@ -37,19 +39,4 @@ steps:
     summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/jacoco/jacoco.xml"
     reportDirectory: "$(System.DefaultWorkingDirectory)/**/site/jacoco"
     failIfCoverageEmpty: true
-
-stages: 
-- stage: deploy
-  jobs:
-  - deployment: DeployWeb
-    displayName: deploy Web App
-    pool:
-      vmImage: 'Ubuntu-latest'
-    # creates an environment if it doesn't exist
-    environment: 'Dev'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - script: echo Hello world
 
